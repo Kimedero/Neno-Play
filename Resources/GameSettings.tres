@@ -1,0 +1,6 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bjxgh4kwje1gt"]
+
+[ext_resource type="Script" uid="uid://fmhx18g4uf8k" path="res://Resources/GameSettings.gd" id="1_mf4sw"]
+
+[resource]
+script = ExtResource("1_mf4sw")

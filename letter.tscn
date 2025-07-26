@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cw1m6t16es0w1"]
+
+[ext_resource type="Theme" uid="uid://b7jeweedjkdla" path="res://main_theme.tres" id="1_5gbsb"]
+
+[node name="Letter" type="Label"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_5gbsb")
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1

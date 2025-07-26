@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b7jeweedjkdla"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37kl0"]
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[resource]
+Label/styles/normal = SubResource("StyleBoxFlat_37kl0")
