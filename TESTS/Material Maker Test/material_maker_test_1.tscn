@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b818l7xysacnd"]
+
+[ext_resource type="Material" path="res://TESTS/Material Maker Test/wirute_test.tres" id="1_4q51q"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_poon8"]
+top_radius = 1.0
+bottom_radius = 1.0
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_poon8")
+surface_material_override/0 = ExtResource("1_4q51q")

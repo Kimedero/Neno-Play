@@ -1,0 +1,183 @@
+[gd_scene load_steps=5 format=3 uid="uid://bho32muv5xsiy"]
+
+[ext_resource type="Script" uid="uid://djqt3w7roai7o" path="res://TESTS/investigating_touch_2.gd" id="1_1jt78"]
+[ext_resource type="Texture2D" uid="uid://bv1ltpt3qalow" path="res://Images/dot.svg" id="2_2wlbj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vswfn"]
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 10
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4esmr"]
+radius = 50.0
+
+[node name="InvestigatingTouch" type="Node2D"]
+script = ExtResource("1_1jt78")
+
+[node name="WordLabel" type="Label" parent="."]
+offset_left = 53.0
+offset_top = 53.0
+offset_right = 309.0
+offset_bottom = 123.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_vswfn")
+text = "stuff"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InfoLabel" type="Label" parent="."]
+offset_left = 53.0
+offset_top = 149.0
+offset_right = 309.0
+offset_bottom = 219.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_vswfn")
+text = "stuff"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DotLine2D" type="Line2D" parent="."]
+width = 40.0
+default_color = Color(0.933333, 0.396078, 0.0627451, 1)
+
+[node name="Dot1" type="Area2D" parent="."]
+position = Vector2(152, 320)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dot1"]
+shape = SubResource("CircleShape2D_4esmr")
+
+[node name="Sprite2D" type="Sprite2D" parent="Dot1"]
+modulate = Color(0.145098, 1, 1, 1)
+texture = ExtResource("2_2wlbj")
+
+[node name="Label" type="Label" parent="Dot1"]
+custom_minimum_size = Vector2(100, 100)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Dot2" type="Area2D" parent="."]
+position = Vector2(272, 440)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dot2"]
+shape = SubResource("CircleShape2D_4esmr")
+
+[node name="Sprite2D" type="Sprite2D" parent="Dot2"]
+modulate = Color(0.145098, 1, 1, 1)
+texture = ExtResource("2_2wlbj")
+
+[node name="Label" type="Label" parent="Dot2"]
+custom_minimum_size = Vector2(100, 100)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Dot3" type="Area2D" parent="."]
+position = Vector2(256, 632)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dot3"]
+shape = SubResource("CircleShape2D_4esmr")
+
+[node name="Sprite2D" type="Sprite2D" parent="Dot3"]
+modulate = Color(0.145098, 1, 1, 1)
+texture = ExtResource("2_2wlbj")
+
+[node name="Label" type="Label" parent="Dot3"]
+custom_minimum_size = Vector2(100, 100)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Dot4" type="Area2D" parent="."]
+position = Vector2(88, 496)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dot4"]
+shape = SubResource("CircleShape2D_4esmr")
+
+[node name="Sprite2D" type="Sprite2D" parent="Dot4"]
+modulate = Color(0.145098, 1, 1, 1)
+texture = ExtResource("2_2wlbj")
+
+[node name="Label" type="Label" parent="Dot4"]
+custom_minimum_size = Vector2(100, 100)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "D"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Dot5" type="Area2D" parent="."]
+position = Vector2(112, 680)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dot5"]
+shape = SubResource("CircleShape2D_4esmr")
+
+[node name="Sprite2D" type="Sprite2D" parent="Dot5"]
+modulate = Color(0.145098, 1, 1, 1)
+texture = ExtResource("2_2wlbj")
+
+[node name="Label" type="Label" parent="Dot5"]
+custom_minimum_size = Vector2(100, 100)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "E"
+horizontal_alignment = 1
+vertical_alignment = 1
