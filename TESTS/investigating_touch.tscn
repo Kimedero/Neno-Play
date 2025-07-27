@@ -28,8 +28,22 @@ text = "stuff"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="WordLabel2" type="Label" parent="."]
+offset_left = 53.0
+offset_top = 149.0
+offset_right = 309.0
+offset_bottom = 219.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_vswfn")
+text = "stuff"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DotLine2D" type="Line2D" parent="."]
+width = 40.0
+default_color = Color(0.933333, 0.396078, 0.0627451, 1)
+
 [node name="Dot1" type="Area2D" parent="."]
-position = Vector2(152, 232)
+position = Vector2(152, 320)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dot1"]
@@ -57,7 +71,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Dot2" type="Area2D" parent="."]
-position = Vector2(272, 368)
+position = Vector2(272, 440)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dot2"]
@@ -85,7 +99,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Dot3" type="Area2D" parent="."]
-position = Vector2(256, 568)
+position = Vector2(256, 632)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dot3"]
@@ -113,7 +127,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Dot4" type="Area2D" parent="."]
-position = Vector2(88, 440)
+position = Vector2(88, 496)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dot4"]
@@ -167,7 +181,3 @@ grow_vertical = 2
 text = "E"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="DotLine2D" type="Line2D" parent="."]
-width = 40.0
-default_color = Color(0.933333, 0.396078, 0.0627451, 1)
