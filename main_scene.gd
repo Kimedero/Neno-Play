@@ -7,11 +7,17 @@ extends Control
 
 @onready var dot_line_2d: Line2D = $MiddlePart/WordCircleTextureRect/DotHub/DotLine2D
 
+@onready var found_words_grid_container: GridContainer = $TopPart/FoundWordsGridContainer
+
 const DOT = preload("res://dot/dot.tscn")
 var selected_dot_array: Array[Dot]
 
+# We'll figure out a way to load this main scene with the actual letters to form words from already set
+# we also need a way to save progress
+
 var actual_letters = "NLASEP"
 @export var number_of_dots: int = 6
+
 var min_word_circle_position: float
 
 var dot_wall_offset: int = 20 ## dot's distance in pixels from the Word Circle wall
@@ -50,8 +56,6 @@ func centering_dot_hub():
 	else:
 		min_word_circle_position = word_circle_texture_rect.size.x
 	dot_hub.position = Vector2.ONE * min_word_circle_position * 0.5
-	await get_tree().process_frame
-	#print("Dot Hub Position: %s - Global Pos: %s" % [dot_hub.position, dot_hub.global_position] )
 
 
 func place_dots():

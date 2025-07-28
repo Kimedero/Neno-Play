@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b7jeweedjkdla"]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://b7jeweedjkdla"]
+
+[ext_resource type="FontFile" uid="uid://7cf3304i5wno" path="res://dot/dot_fonts/LEMONMILK-Bold.otf" id="1_470mv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37kl0"]
 corner_radius_top_left = 10
@@ -7,4 +9,5 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [resource]
+Label/fonts/font = ExtResource("1_470mv")
 Label/styles/normal = SubResource("StyleBoxFlat_37kl0")
