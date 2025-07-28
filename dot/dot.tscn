@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://bqg7hwi0is1eb"]
+
+[ext_resource type="Script" uid="uid://njn6w8giikp7" path="res://dot/dot.gd" id="1_x7w01"]
+[ext_resource type="Texture2D" uid="uid://bv1ltpt3qalow" path="res://Images/dot.svg" id="2_7tqs5"]
+[ext_resource type="FontFile" uid="uid://ene36357ko42" path="res://dot/dot_fonts/LEMONMILK-Bold.otf" id="3_ay6xu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l5yy6"]
+radius = 40.0
+
+[node name="DOT" type="Area2D"]
+script = ExtResource("1_x7w01")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_l5yy6")
+
+[node name="DotSprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.270588, 0, 1)
+texture = ExtResource("2_7tqs5")
+
+[node name="HighlightSprite2D" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0.933333, 0.396078, 0.0627451, 1)
+texture = ExtResource("2_7tqs5")
+
+[node name="DotLabel" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_ay6xu")
+theme_override_font_sizes/font_size = 60
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1

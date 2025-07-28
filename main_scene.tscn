@@ -1,12 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4isxwnwoh0ih"]
+[gd_scene load_steps=6 format=3 uid="uid://gvbdsf52q083"]
 
-[ext_resource type="Script" uid="uid://dsq50xv0blwpj" path="res://test.gd" id="1_8uh7m"]
-[ext_resource type="Texture2D" uid="uid://bbys6n4w0tshx" path="res://Images/MainDot.svg" id="1_37kl0"]
-[ext_resource type="Theme" uid="uid://b7jeweedjkdla" path="res://main_theme.tres" id="1_ppyta"]
-[ext_resource type="PackedScene" uid="uid://cw1m6t16es0w1" path="res://letter.tscn" id="2_6uqi0"]
-[ext_resource type="Script" uid="uid://cwxsedwmea7g1" path="res://word_row_size.gd" id="3_ykrsh"]
+[ext_resource type="Theme" uid="uid://b7jeweedjkdla" path="res://main_theme.tres" id="1_8mm7a"]
+[ext_resource type="Script" uid="uid://by2vfsylw04mb" path="res://main_scene.gd" id="2_8mm7a"]
+[ext_resource type="Script" uid="uid://cwxsedwmea7g1" path="res://word_row_size.gd" id="3_nfk4m"]
+[ext_resource type="PackedScene" uid="uid://cw1m6t16es0w1" path="res://letter.tscn" id="4_66tet"]
+[ext_resource type="Texture2D" uid="uid://bbys6n4w0tshx" path="res://Images/MainDot.svg" id="5_7ycvg"]
 
-[node name="Test" type="Control"]
+[node name="MainScene" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,8 +14,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme = ExtResource("1_ppyta")
-script = ExtResource("1_8uh7m")
+theme = ExtResource("1_8mm7a")
+script = ExtResource("2_8mm7a")
 
 [node name="BackgroundColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -65,7 +65,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
-script = ExtResource("3_ykrsh")
+script = ExtResource("3_nfk4m")
 
 [node name="Panel" type="Panel" parent="TopPart/GridContainer/WordRow"]
 layout_mode = 1
@@ -91,22 +91,22 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Letter" parent="TopPart/GridContainer/WordRow/Panel/HBoxContainer" instance=ExtResource("2_6uqi0")]
+[node name="Letter" parent="TopPart/GridContainer/WordRow/Panel/HBoxContainer" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter2" parent="TopPart/GridContainer/WordRow/Panel/HBoxContainer" instance=ExtResource("2_6uqi0")]
+[node name="Letter2" parent="TopPart/GridContainer/WordRow/Panel/HBoxContainer" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter3" parent="TopPart/GridContainer/WordRow/Panel/HBoxContainer" instance=ExtResource("2_6uqi0")]
+[node name="Letter3" parent="TopPart/GridContainer/WordRow/Panel/HBoxContainer" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter4" parent="TopPart/GridContainer/WordRow/Panel/HBoxContainer" instance=ExtResource("2_6uqi0")]
+[node name="Letter4" parent="TopPart/GridContainer/WordRow/Panel/HBoxContainer" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter5" parent="TopPart/GridContainer/WordRow/Panel/HBoxContainer" instance=ExtResource("2_6uqi0")]
+[node name="Letter5" parent="TopPart/GridContainer/WordRow/Panel/HBoxContainer" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter6" parent="TopPart/GridContainer/WordRow/Panel/HBoxContainer" instance=ExtResource("2_6uqi0")]
+[node name="Letter6" parent="TopPart/GridContainer/WordRow/Panel/HBoxContainer" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
 [node name="WordRow2" type="Control" parent="TopPart/GridContainer"]
@@ -114,7 +114,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
-script = ExtResource("3_ykrsh")
+script = ExtResource("3_nfk4m")
 
 [node name="Panel" type="Panel" parent="TopPart/GridContainer/WordRow2"]
 layout_mode = 1
@@ -140,19 +140,19 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Letter" parent="TopPart/GridContainer/WordRow2/Panel/HBoxContainer" instance=ExtResource("2_6uqi0")]
+[node name="Letter" parent="TopPart/GridContainer/WordRow2/Panel/HBoxContainer" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter2" parent="TopPart/GridContainer/WordRow2/Panel/HBoxContainer" instance=ExtResource("2_6uqi0")]
+[node name="Letter2" parent="TopPart/GridContainer/WordRow2/Panel/HBoxContainer" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter3" parent="TopPart/GridContainer/WordRow2/Panel/HBoxContainer" instance=ExtResource("2_6uqi0")]
+[node name="Letter3" parent="TopPart/GridContainer/WordRow2/Panel/HBoxContainer" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter4" parent="TopPart/GridContainer/WordRow2/Panel/HBoxContainer" instance=ExtResource("2_6uqi0")]
+[node name="Letter4" parent="TopPart/GridContainer/WordRow2/Panel/HBoxContainer" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter5" parent="TopPart/GridContainer/WordRow2/Panel/HBoxContainer" instance=ExtResource("2_6uqi0")]
+[node name="Letter5" parent="TopPart/GridContainer/WordRow2/Panel/HBoxContainer" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
 [node name="WordRow3" type="Control" parent="TopPart/GridContainer"]
@@ -280,10 +280,14 @@ anchors_preset = -1
 anchor_top = 0.2
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("1_37kl0")
+texture = ExtResource("5_7ycvg")
 expand_mode = 1
 stretch_mode = 5
 
@@ -291,10 +295,8 @@ stretch_mode = 5
 position = Vector2(169.32, 169.32)
 
 [node name="DotLine2D" type="Line2D" parent="MiddlePart/WordCircleTextureRect/DotHub"]
-points = PackedVector2Array(257.68, 75.62, 12.68, -30.38, 403.68, -142.38, 315.68, 4.62, 287.68, -56.38, 180.68, -28.38, 214.68, 18.62)
 width = 32.0
-default_color = Color(1, 0.341176, 0, 1)
-joint_mode = 2
+default_color = Color(1, 0.270588, 0, 1)
 begin_cap_mode = 2
 end_cap_mode = 2
 

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Neno Play"
-run/main_scene="uid://mxyrt2wnotjr"
+run/main_scene="uid://gvbdsf52q083"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 

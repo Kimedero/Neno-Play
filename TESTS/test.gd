@@ -7,7 +7,7 @@ var GAME_SETTINGS: Resource = preload("res://Resources/GameSettings.tres")
 @onready var word_circle_texture_rect: TextureRect = $MiddlePart/WordCircleTextureRect
 @onready var dot_line_2d: Line2D = $MiddlePart/WordCircleTextureRect/DotHub/DotLine2D
 
-const DOT = preload("res://dot.tscn")
+const DOT = preload("res://dot/dot.tscn")
 
 @export var number_of_dots: int = 6
 var min_word_circle_pos: float
