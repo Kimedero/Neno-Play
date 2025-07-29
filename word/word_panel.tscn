@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://dref8wox5x8xu"]
+
+[ext_resource type="Theme" uid="uid://b7jeweedjkdla" path="res://main_theme.tres" id="1_wsh7o"]
+[ext_resource type="Script" uid="uid://b33v7hki86wxe" path="res://word/word_panel.gd" id="2_k3fod"]
+
+[node name="WordPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_wsh7o")
+script = ExtResource("2_k3fod")
+
+[node name="WordLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "_ _ _"
+horizontal_alignment = 1
+vertical_alignment = 1

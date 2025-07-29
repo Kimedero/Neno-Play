@@ -41,9 +41,9 @@ func find_smallest_letter_size() -> float:
 		
 		smallest_vertical_division = minimum_vertical_size
 		smallest_horizontal_size = minimum_horizontal_size
-		print("Min Vert: %s - Min Ho: %s" % [minimum_vertical_size, minimum_horizontal_size])
-		#print("Word Row: %s - Size: %s - %s" % [letter_children, control_dimensions, vertical_division])
-	#print("Minimum Vertical Size: %s - Min Horizontal: Size: %s" % [minimum_vertical_size, minimum_horizontal_size])
+		#print("Min Vert: %s - Min Ho: %s" % [minimum_vertical_size, minimum_horizontal_size])
+		##print("Word Row: %s - Size: %s - %s" % [letter_children, control_dimensions, vertical_division])
+	##print("Minimum Vertical Size: %s - Min Horizontal: Size: %s" % [minimum_vertical_size, minimum_horizontal_size])
 	return min(minimum_vertical_size, minimum_horizontal_size)
 	
 #the intention is to scan through all the subdivisons and use the smallest one for all labels

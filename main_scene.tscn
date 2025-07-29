@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://gvbdsf52q083"]
+[gd_scene load_steps=8 format=3 uid="uid://gvbdsf52q083"]
 
 [ext_resource type="Theme" uid="uid://b7jeweedjkdla" path="res://main_theme.tres" id="1_8mm7a"]
 [ext_resource type="Script" uid="uid://by2vfsylw04mb" path="res://main_scene.gd" id="2_8mm7a"]
@@ -6,6 +6,19 @@
 [ext_resource type="PackedScene" uid="uid://cw1m6t16es0w1" path="res://letter.tscn" id="4_66tet"]
 [ext_resource type="Texture2D" uid="uid://t1jkrjb6pyo3" path="res://Images/MainDot.svg" id="5_7ycvg"]
 [ext_resource type="FontFile" uid="uid://7cf3304i5wno" path="res://dot/dot_fonts/LEMONMILK-Bold.otf" id="5_hq1ik"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hq1ik"]
+bg_color = Color(0.962834, 0.390701, 0.288295, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.980392, 0.00392157, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_offset = Vector2(10, 10)
 
 [node name="MainScene" type="Control"]
 layout_mode = 3
@@ -28,7 +41,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 0.501961, 0, 1)
 
-[node name="TopMostPart" type="ColorRect" parent="."]
+[node name="UpperPart" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -36,11 +49,10 @@ anchor_bottom = 0.05
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(1, 0.321569, 0.435294, 1)
+color = Color(1, 0.215686, 0, 1)
 
-[node name="TopPart" type="Panel" parent="."]
+[node name="MiddlePart" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = -1
 anchor_top = 0.05
 anchor_right = 1.0
 anchor_bottom = 0.4
@@ -48,7 +60,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="FoundWordsGridContainer" type="GridContainer" parent="TopPart"]
+[node name="FoundWordsGridContainer" type="GridContainer" parent="MiddlePart"]
 visible = false
 layout_mode = 1
 anchors_preset = -1
@@ -66,7 +78,7 @@ theme_override_constants/v_separation = 0
 columns = 2
 script = ExtResource("3_hq1ik")
 
-[node name="WordRow" type="HBoxContainer" parent="TopPart/FoundWordsGridContainer"]
+[node name="WordRow" type="HBoxContainer" parent="MiddlePart/FoundWordsGridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -74,42 +86,19 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Letter" parent="TopPart/FoundWordsGridContainer/WordRow" instance=ExtResource("4_66tet")]
+[node name="Letter" parent="MiddlePart/FoundWordsGridContainer/WordRow" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter2" parent="TopPart/FoundWordsGridContainer/WordRow" instance=ExtResource("4_66tet")]
+[node name="Letter2" parent="MiddlePart/FoundWordsGridContainer/WordRow" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter3" parent="TopPart/FoundWordsGridContainer/WordRow" instance=ExtResource("4_66tet")]
+[node name="Letter3" parent="MiddlePart/FoundWordsGridContainer/WordRow" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter4" parent="TopPart/FoundWordsGridContainer/WordRow" instance=ExtResource("4_66tet")]
+[node name="Letter4" parent="MiddlePart/FoundWordsGridContainer/WordRow" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="WordRow2" type="HBoxContainer" parent="TopPart/FoundWordsGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-mouse_filter = 2
-theme_override_constants/separation = 0
-alignment = 1
-
-[node name="Letter" parent="TopPart/FoundWordsGridContainer/WordRow2" instance=ExtResource("4_66tet")]
-layout_mode = 2
-
-[node name="Letter2" parent="TopPart/FoundWordsGridContainer/WordRow2" instance=ExtResource("4_66tet")]
-layout_mode = 2
-
-[node name="Letter3" parent="TopPart/FoundWordsGridContainer/WordRow2" instance=ExtResource("4_66tet")]
-layout_mode = 2
-
-[node name="Letter4" parent="TopPart/FoundWordsGridContainer/WordRow2" instance=ExtResource("4_66tet")]
-layout_mode = 2
-
-[node name="Letter5" parent="TopPart/FoundWordsGridContainer/WordRow2" instance=ExtResource("4_66tet")]
-layout_mode = 2
-
-[node name="WordRow3" type="HBoxContainer" parent="TopPart/FoundWordsGridContainer"]
+[node name="WordRow2" type="HBoxContainer" parent="MiddlePart/FoundWordsGridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -117,16 +106,22 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Letter" parent="TopPart/FoundWordsGridContainer/WordRow3" instance=ExtResource("4_66tet")]
+[node name="Letter" parent="MiddlePart/FoundWordsGridContainer/WordRow2" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter2" parent="TopPart/FoundWordsGridContainer/WordRow3" instance=ExtResource("4_66tet")]
+[node name="Letter2" parent="MiddlePart/FoundWordsGridContainer/WordRow2" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter3" parent="TopPart/FoundWordsGridContainer/WordRow3" instance=ExtResource("4_66tet")]
+[node name="Letter3" parent="MiddlePart/FoundWordsGridContainer/WordRow2" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="WordRow4" type="HBoxContainer" parent="TopPart/FoundWordsGridContainer"]
+[node name="Letter4" parent="MiddlePart/FoundWordsGridContainer/WordRow2" instance=ExtResource("4_66tet")]
+layout_mode = 2
+
+[node name="Letter5" parent="MiddlePart/FoundWordsGridContainer/WordRow2" instance=ExtResource("4_66tet")]
+layout_mode = 2
+
+[node name="WordRow3" type="HBoxContainer" parent="MiddlePart/FoundWordsGridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -134,184 +129,63 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Letter" parent="TopPart/FoundWordsGridContainer/WordRow4" instance=ExtResource("4_66tet")]
+[node name="Letter" parent="MiddlePart/FoundWordsGridContainer/WordRow3" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter2" parent="TopPart/FoundWordsGridContainer/WordRow4" instance=ExtResource("4_66tet")]
+[node name="Letter2" parent="MiddlePart/FoundWordsGridContainer/WordRow3" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter3" parent="TopPart/FoundWordsGridContainer/WordRow4" instance=ExtResource("4_66tet")]
+[node name="Letter3" parent="MiddlePart/FoundWordsGridContainer/WordRow3" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="Letter4" parent="TopPart/FoundWordsGridContainer/WordRow4" instance=ExtResource("4_66tet")]
+[node name="WordRow4" type="HBoxContainer" parent="MiddlePart/FoundWordsGridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Letter" parent="MiddlePart/FoundWordsGridContainer/WordRow4" instance=ExtResource("4_66tet")]
 layout_mode = 2
 
-[node name="WordGridContainer" type="GridContainer" parent="TopPart"]
+[node name="Letter2" parent="MiddlePart/FoundWordsGridContainer/WordRow4" instance=ExtResource("4_66tet")]
+layout_mode = 2
+
+[node name="Letter3" parent="MiddlePart/FoundWordsGridContainer/WordRow4" instance=ExtResource("4_66tet")]
+layout_mode = 2
+
+[node name="Letter4" parent="MiddlePart/FoundWordsGridContainer/WordRow4" instance=ExtResource("4_66tet")]
+layout_mode = 2
+
+[node name="WordGridContainer" type="GridContainer" parent="MiddlePart"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
 columns = 2
 
-[node name="WorldPanel" type="Panel" parent="TopPart/WordGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WordLabel" type="Label" parent="TopPart/WordGridContainer/WorldPanel"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-text = "_ _ _"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="WorldPanel2" type="Panel" parent="TopPart/WordGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WordLabel" type="Label" parent="TopPart/WordGridContainer/WorldPanel2"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-text = "_ _ _ _"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="WorldPanel3" type="Panel" parent="TopPart/WordGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WordLabel" type="Label" parent="TopPart/WordGridContainer/WorldPanel3"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-text = "_ _ _"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="WorldPanel4" type="Panel" parent="TopPart/WordGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WordLabel" type="Label" parent="TopPart/WordGridContainer/WorldPanel4"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-text = "_ _ _ _"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="WorldPanel5" type="Panel" parent="TopPart/WordGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WordLabel" type="Label" parent="TopPart/WordGridContainer/WorldPanel5"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-text = "_ _ _ _"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="WorldPanel6" type="Panel" parent="TopPart/WordGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WordLabel" type="Label" parent="TopPart/WordGridContainer/WorldPanel6"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-text = "_ _ _ _ _"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="WorldPanel7" type="Panel" parent="TopPart/WordGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WordLabel" type="Label" parent="TopPart/WordGridContainer/WorldPanel7"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-text = "_ _ _ _ _"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="WorldPanel8" type="Panel" parent="TopPart/WordGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WordLabel" type="Label" parent="TopPart/WordGridContainer/WorldPanel8"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-text = "_ _ _ _ _ _"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MiddlePart" type="Control" parent="."]
+[node name="BottomPart" type="Control" parent="."]
 layout_mode = 1
 anchor_top = 0.4
 anchor_right = 1.0
 anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="FormedWordControl" type="Control" parent="BottomPart"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 0.2
 offset_left = 10.0
 offset_top = 10.0
 offset_right = -10.0
@@ -320,38 +194,30 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="FormedWordControl" type="Control" parent="MiddlePart"]
-layout_mode = 1
-anchor_right = 1.0
-anchor_bottom = 0.2
-offset_bottom = -5.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="FormedWordLabel" type="Label" parent="MiddlePart/FormedWordControl"]
+[node name="FormedWordLabel" type="Label" parent="BottomPart/FormedWordControl"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
+anchor_left = 0.5
+anchor_right = 0.5
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_hq1ik")
 theme_override_font_sizes/font_size = 50
-text = "WORD"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="WordCircleTextureRect" type="TextureRect" parent="MiddlePart"]
+[node name="WordCircleTextureRect" type="TextureRect" parent="BottomPart"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.2
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -359,16 +225,16 @@ texture = ExtResource("5_7ycvg")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="DotHub" type="Node2D" parent="MiddlePart/WordCircleTextureRect"]
-position = Vector2(169.32, 169.32)
+[node name="DotHub" type="Node2D" parent="BottomPart/WordCircleTextureRect"]
+position = Vector2(160, 157.32)
 
-[node name="DotLine2D" type="Line2D" parent="MiddlePart/WordCircleTextureRect/DotHub"]
+[node name="DotLine2D" type="Line2D" parent="BottomPart/WordCircleTextureRect/DotHub"]
 width = 32.0
 default_color = Color(1, 0.270588, 0, 1)
 begin_cap_mode = 2
 end_cap_mode = 2
 
-[node name="BottomPart" type="Panel" parent="."]
+[node name="BottomMostPart" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.95
@@ -376,3 +242,29 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0.215686, 0, 1)
+
+[node name="BonusWordRichTextLabel" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(125, 50)
+mouse_filter = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_hq1ik")
+bbcode_enabled = true
+text = "[center][u]Bonus Word Found![/u]
+[font_size=40]PLANETS[/font_size]
+[/center]"
+horizontal_alignment = 1
+vertical_alignment = 1
