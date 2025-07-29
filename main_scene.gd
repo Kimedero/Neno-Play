@@ -114,7 +114,7 @@ func place_dots():
 		var dot_rotation = index * TAU / number_of_dots
 		new_node.rotation = dot_rotation
 		dot.rotation = -dot_rotation
-		dot_transform_dict[index] = {'dot':dot,'parent_rotation':new_node.rotation, 'dot_position':dot.position}
+		dot_transform_dict[index] = {'dot':dot, 'parent_rotation':new_node.rotation}
 
 
 func on_dot_input_event(_viewport: Node, _event: InputEvent, _shape_idx: int, dot: Dot):
@@ -211,10 +211,10 @@ func look_up_word_in_dictionary(formed_word: String):
 	if all_words.has(formed_word.to_upper()):
 		if not found_bonus_words_array.has(formed_word):
 			display_found_bonus_word(formed_word)
-			print("FOUND WORD: %s" % [formed_word])
+			#print("FOUND WORD: %s" % [formed_word])
 		else:
 			display_already_found_bonus_word(formed_word)
-			print("ALREADY FOUND WORD: %s" % [formed_word])
+			#print("ALREADY FOUND WORD: %s" % [formed_word])
 			
 		found_bonus_words_array.append(formed_word.to_upper())
 
@@ -265,14 +265,11 @@ func on_shuffle_button_pressed():
 	
 	for index in dot_transform_dict.keys():
 		var random_index: int = shuffle_array[index]
-		var new_dot_entry = dot_transform_dict[random_index]
 		
 		var current_dot: Dot = dot_transform_dict[index].dot
 		var shuffle_tween := create_tween()
 		shuffle_tween.tween_property(current_dot.get_parent(), "rotation", dot_transform_dict[random_index].parent_rotation, 0.3)
 		shuffle_tween.parallel().tween_property(current_dot, "rotation", -dot_transform_dict[random_index].parent_rotation, 0.3)
-		#shuffle_tween.tween_property(current_dot, "position", Vector2.ZERO, 0.3)
-		#shuffle_tween.tween_property(current_dot, "position", dot_transform_dict[random_index].dot_position, 0.3)
 		shuffle_tween.set_ease(Tween.EASE_OUT_IN).set_trans(Tween.TRANS_SINE)
 	
 	var shuffle_press_tween := create_tween()
@@ -280,4 +277,4 @@ func on_shuffle_button_pressed():
 	shuffle_press_tween.tween_property(shuffle_texture_button, "scale", Vector2.ONE, 0.3)
 	shuffle_press_tween.set_ease(Tween.EASE_IN_OUT)
 	shuffle_press_tween.set_trans(Tween.TRANS_BOUNCE)
-	print("Shuffle!")
+	#print("Shuffle!")

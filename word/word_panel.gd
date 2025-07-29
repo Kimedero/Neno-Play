@@ -9,7 +9,7 @@ func _ready() -> void:
 	for letter in word_to_display:
 		word_label.text += "_ "
 		#print(word_label.text)
-	print(word_to_display)
+	#print(word_to_display)
 
 
 func animate_found_word():
