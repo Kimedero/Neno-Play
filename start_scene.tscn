@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://v6phe7reft8n"]
+
+[ext_resource type="Theme" uid="uid://b7jeweedjkdla" path="res://main_theme.tres" id="1_mbe3m"]
+[ext_resource type="Script" uid="uid://cn1qp5v5nmu0o" path="res://start_scene.gd" id="2_kyjdd"]
+
+[node name="StartScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_mbe3m")
+script = ExtResource("2_kyjdd")
+
+[node name="BackgroundColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.955852, 0.4089, 0.141765, 1)
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_top = -15.0
+offset_right = 31.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "start"

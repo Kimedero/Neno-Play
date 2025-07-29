@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=360
 window/size/viewport_height=806
+window/energy_saving/keep_screen_on=false
 window/stretch/mode="canvas_items"
 window/handheld/orientation=1
 

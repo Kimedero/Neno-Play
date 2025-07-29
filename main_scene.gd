@@ -1,4 +1,4 @@
-@tool
+#@tool
 extends Control
 
 @onready var formed_word_label: Label = $BottomPart/FormedWordControl/FormedWordLabel
@@ -13,6 +13,7 @@ extends Control
 
 const DOT = preload("res://dot/dot.tscn")
 var selected_dot_array: Array[Dot]
+var dot_transform_dict: Dictionary
 
 # We'll figure out a way to load this main scene with the actual letters to form words from already set
 # we also need a way to save progress
@@ -32,22 +33,31 @@ const WORD_PANEL = preload("res://word/word_panel.tscn")
 var word_panel_dict: Dictionary
 
 @onready var bonus_word_rich_text_label: RichTextLabel = $BonusWordRichTextLabel
+@onready var already_found_bonus_word_rich_text_label: RichTextLabel = $AlreadyFoundBonusWordRichTextLabel
 
 var min_word_circle_position: float
 
 var dot_wall_offset: int = 20 ## dot's distance in pixels from the Word Circle wall
 
 var touch_started: bool ## if action to select dot has started
-var drag_started: bool ## to help display the line_2d
+#var drag_started: bool ## to help display the line_2d
 
 var dictionary_file = "res://Assets/dictionary.txt"
 var kamusi_file = "res://Assets/Kamusi/kamusi_words.txt"
 
+
+@onready var shuffle_texture_button: TextureButton = $BottomPart/ShuffleTextureButton
+
+
 func _ready() -> void:
+	shuffle_texture_button.button_down.connect(on_shuffle_button_pressed)
+	shuffle_texture_button.pivot_offset = shuffle_texture_button.size * 0.5
+	
 	formed_word_label.resized.connect(show_formed_word_label_contents)
 	show_formed_word_label_contents()
 	
 	all_words = parse_dictionary()
+	#print(all_words[all_words.size() - 1])
 	
 	format_word_grid()
 	
@@ -57,6 +67,7 @@ func _ready() -> void:
 	place_dots()
 	
 	bonus_word_rich_text_label.scale = Vector2.ZERO
+	already_found_bonus_word_rich_text_label.scale = Vector2.ZERO
 
 
 func _input(event: InputEvent) -> void:
@@ -103,6 +114,7 @@ func place_dots():
 		var dot_rotation = index * TAU / number_of_dots
 		new_node.rotation = dot_rotation
 		dot.rotation = -dot_rotation
+		dot_transform_dict[index] = {'dot':dot,'parent_rotation':new_node.rotation, 'dot_position':dot.position}
 
 
 func on_dot_input_event(_viewport: Node, _event: InputEvent, _shape_idx: int, dot: Dot):
@@ -198,13 +210,39 @@ func format_word_grid():
 func look_up_word_in_dictionary(formed_word: String):
 	if all_words.has(formed_word.to_upper()):
 		if not found_bonus_words_array.has(formed_word):
-			display_bonus_word_find(formed_word)
+			display_found_bonus_word(formed_word)
 			print("FOUND WORD: %s" % [formed_word])
 		else:
+			display_already_found_bonus_word(formed_word)
 			print("ALREADY FOUND WORD: %s" % [formed_word])
 			
 		found_bonus_words_array.append(formed_word.to_upper())
-		
+
+
+func display_found_bonus_word(bonus_word: String):
+	bonus_word_rich_text_label.text = "[center][u]Bonus Word Found![/u]\n[font_size=40][color=green]%s[/color][/font_size][/center]" % [bonus_word]
+	
+	bonus_word_rich_text_label.pivot_offset = bonus_word_rich_text_label.size * 0.5
+	
+	var bonus_tween := create_tween()
+	bonus_tween.tween_property(bonus_word_rich_text_label, "scale", Vector2.ONE, 0.4)
+	bonus_tween.tween_property(bonus_word_rich_text_label, "scale", Vector2.ONE, 2.5)
+	bonus_tween.tween_property(bonus_word_rich_text_label, "scale", Vector2.ZERO, 0.1)
+	bonus_tween.set_ease(Tween.EASE_IN_OUT)
+	bonus_tween.set_trans(Tween.TRANS_SPRING)
+
+
+func display_already_found_bonus_word(bonus_word: String):
+	already_found_bonus_word_rich_text_label.text = "[center][u]Bonus Word\nAlready Found![/u]\n[font_size=40][color=green]%s[/color][/font_size][/center]" % [bonus_word]
+	
+	already_found_bonus_word_rich_text_label.pivot_offset = bonus_word_rich_text_label.size * 0.5
+	
+	var already_found_bonus_tween := create_tween()
+	already_found_bonus_tween.tween_property(already_found_bonus_word_rich_text_label, "scale", Vector2.ONE, 0.2)
+	already_found_bonus_tween.tween_property(already_found_bonus_word_rich_text_label, "scale", Vector2.ONE, 1.6)
+	already_found_bonus_tween.tween_property(already_found_bonus_word_rich_text_label, "scale", Vector2.ZERO, 0.05)
+	already_found_bonus_tween.set_ease(Tween.EASE_IN_OUT)
+	already_found_bonus_tween.set_trans(Tween.TRANS_SPRING)
 
 
 func parse_dictionary() -> Array:
@@ -220,15 +258,26 @@ func parse_dictionary() -> Array:
 	return word_arr
 
 
-func display_bonus_word_find(bonus_word: String):
-	bonus_word_rich_text_label.text = "[center][u]Bonus Word Found![/u]\n[font_size=40][color=green]%s[/color][/font_size][/center]" % [bonus_word]
+func on_shuffle_button_pressed():
+	# the intention is to shuffle the dot transform dictionary such that dots get shifted to a random position
+	var shuffle_array: Array = dot_transform_dict.keys()
+	shuffle_array.shuffle()
 	
-	bonus_word_rich_text_label.pivot_offset = bonus_word_rich_text_label.size * 0.5
+	for index in dot_transform_dict.keys():
+		var random_index: int = shuffle_array[index]
+		var new_dot_entry = dot_transform_dict[random_index]
+		
+		var current_dot: Dot = dot_transform_dict[index].dot
+		var shuffle_tween := create_tween()
+		shuffle_tween.tween_property(current_dot.get_parent(), "rotation", dot_transform_dict[random_index].parent_rotation, 0.3)
+		shuffle_tween.parallel().tween_property(current_dot, "rotation", -dot_transform_dict[random_index].parent_rotation, 0.3)
+		#shuffle_tween.tween_property(current_dot, "position", Vector2.ZERO, 0.3)
+		#shuffle_tween.tween_property(current_dot, "position", dot_transform_dict[random_index].dot_position, 0.3)
+		shuffle_tween.set_ease(Tween.EASE_OUT_IN).set_trans(Tween.TRANS_SINE)
 	
-	var bonus_tween := create_tween()
-	bonus_tween.tween_property(bonus_word_rich_text_label, "scale", Vector2.ONE, 0.4)
-	bonus_tween.tween_property(bonus_word_rich_text_label, "scale", Vector2.ONE, 2.5)
-	bonus_tween.tween_property(bonus_word_rich_text_label, "scale", Vector2.ZERO, 0.1)
-	bonus_tween.set_ease(Tween.EASE_IN_OUT)
-	bonus_tween.set_trans(Tween.TRANS_SPRING)
-	
+	var shuffle_press_tween := create_tween()
+	shuffle_press_tween.tween_property(shuffle_texture_button, "scale", Vector2.ONE * 0.6, 0.1)
+	shuffle_press_tween.tween_property(shuffle_texture_button, "scale", Vector2.ONE, 0.3)
+	shuffle_press_tween.set_ease(Tween.EASE_IN_OUT)
+	shuffle_press_tween.set_trans(Tween.TRANS_BOUNCE)
+	print("Shuffle!")

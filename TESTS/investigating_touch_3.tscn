@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://mxyrt2wnotjr"]
 
 [ext_resource type="Script" uid="uid://dl1qnb6gclmrb" path="res://TESTS/investigating_touch_3.gd" id="1_dgbhu"]
-[ext_resource type="Texture2D" uid="uid://b05v6a4l6s2l1" path="res://Images/dot.svg" id="2_ec2nj"]
+[ext_resource type="Texture2D" uid="uid://b05v6a4l6s2l1" path="res://Images/Dot.svg" id="2_ec2nj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vswfn"]
 corner_radius_top_left = 10
