@@ -4,10 +4,10 @@
 [ext_resource type="Script" uid="uid://by2vfsylw04mb" path="res://main_scene.gd" id="2_8mm7a"]
 [ext_resource type="Script" uid="uid://bkpghatcwe0s4" path="res://found_words_grid_container.gd" id="3_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://cw1m6t16es0w1" path="res://letter.tscn" id="4_66tet"]
-[ext_resource type="Texture2D" uid="uid://t1jkrjb6pyo3" path="res://Images/MainDot.svg" id="5_7ycvg"]
+[ext_resource type="Texture2D" uid="uid://t1jkrjb6pyo3" path="res://images/MainDot.svg" id="5_7ycvg"]
 [ext_resource type="FontFile" uid="uid://7cf3304i5wno" path="res://dot/dot_fonts/LEMONMILK-Bold.otf" id="5_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://dref8wox5x8xu" path="res://word/word_panel.tscn" id="5_nfk4m"]
-[ext_resource type="Texture2D" uid="uid://dc1eecyagjclm" path="res://Images/Shuffle.svg" id="8_66tet"]
+[ext_resource type="Texture2D" uid="uid://dc1eecyagjclm" path="res://images/Shuffle.svg" id="8_66tet"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hq1ik"]
 bg_color = Color(0.962834, 0.390701, 0.288295, 1)
@@ -52,6 +52,21 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 0.215686, 0, 1)
+
+[node name="CurrentGameLabel" type="Label" parent="UpperPart"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.0
+offset_right = 20.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Current Game"
 
 [node name="MiddlePart" type="Control" parent="."]
 layout_mode = 1
@@ -337,3 +352,12 @@ text = "[center][u]Bonus Word Already Found![/u]
 [/center]"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ScreenColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.866667, 0.235294, 0.266667, 1)

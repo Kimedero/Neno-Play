@@ -1,6 +1,10 @@
 #@tool
 extends Control
 
+const GAME_MAKER = preload("res://resources/game_maker.tres")
+
+var current_game: int = 0
+
 @onready var formed_word_label: Label = $BottomPart/FormedWordControl/FormedWordLabel
 
 @onready var word_circle_texture_rect: TextureRect = $BottomPart/WordCircleTextureRect
@@ -19,7 +23,7 @@ var dot_transform_dict: Dictionary
 # we also need a way to save progress
 
 # THE GAME MAKERS
-var actual_letters = "NLASEP"
+var actual_letters = "PANELS"
 @export var number_of_dots: int = 6
 var word_columns: int = 2
 var words_to_find_array: Array = ['PLAN', 'LANE', 'PLEA', 'LANES', 'LEAPS', 'PLANE', 'PLANES',  'PLEAS']
@@ -42,32 +46,21 @@ var dot_wall_offset: int = 20 ## dot's distance in pixels from the Word Circle w
 var touch_started: bool ## if action to select dot has started
 #var drag_started: bool ## to help display the line_2d
 
-var dictionary_file = "res://Assets/dictionary.txt"
-var kamusi_file = "res://Assets/Kamusi/kamusi_words.txt"
-
+var dictionary_file = "res://assets/dictionary.txt"
+var kamusi_file = "res://assets/Kamusi/kamusi_words.txt"
 
 @onready var shuffle_texture_button: TextureButton = $BottomPart/ShuffleTextureButton
 
+@onready var current_game_label: Label = $UpperPart/CurrentGameLabel
+
+@onready var screen_color_rect: ColorRect = $ScreenColorRect
 
 func _ready() -> void:
-	shuffle_texture_button.button_down.connect(on_shuffle_button_pressed)
-	shuffle_texture_button.pivot_offset = shuffle_texture_button.size * 0.5
+	initialize_game()
 	
-	formed_word_label.resized.connect(show_formed_word_label_contents)
-	show_formed_word_label_contents()
+	#load_next_game()
 	
-	all_words = parse_dictionary()
-	#print(all_words[all_words.size() - 1])
-	
-	format_word_grid()
-	
-	handling_notches()
-	
-	centering_dot_hub()
-	place_dots()
-	
-	bonus_word_rich_text_label.scale = Vector2.ZERO
-	already_found_bonus_word_rich_text_label.scale = Vector2.ZERO
+	screen_transition()
 
 
 func _input(event: InputEvent) -> void:
@@ -90,6 +83,58 @@ func _input(event: InputEvent) -> void:
 		display_dot_line()
 
 
+func initialize_game():
+	shuffle_texture_button.button_down.connect(shuffle_dots)
+	shuffle_texture_button.pivot_offset = shuffle_texture_button.size * 0.5
+	
+	formed_word_label.resized.connect(show_formed_word_label_contents)
+	show_formed_word_label_contents()
+	
+	all_words = parse_dictionary()
+	#print(all_words[all_words.size() - 1])
+	
+	handling_notches()
+
+
+func load_next_game():
+	# loading a new game
+	load_new_game_settings()
+	format_word_grid()
+	
+	centering_dot_hub()
+	place_dots()
+	
+	bonus_word_rich_text_label.scale = Vector2.ZERO
+	already_found_bonus_word_rich_text_label.scale = Vector2.ZERO
+	
+	shuffle_dots()
+
+
+func load_new_game_settings():
+	# settings to reset
+	found_words_array.clear()
+	found_bonus_words_array.clear()
+	words_to_find_array.clear()
+	
+	#selected_dot_array.clear()
+	dot_transform_dict.clear()
+	
+	word_panel_dict.clear()
+	
+	# fetching new game settings
+	var game_dict: Dictionary = GAME_MAKER.games
+	if game_dict.has(current_game):
+		var curr_game_settings: Dictionary = game_dict[current_game]
+		print("Current game settings: %s" % [curr_game_settings])
+		current_game_label.text = "Current Game: %s" % [current_game]
+		actual_letters = curr_game_settings.letters
+		number_of_dots = actual_letters.length()
+		word_columns = curr_game_settings.columns
+		words_to_find_array = curr_game_settings.words_to_find
+	else:
+		print("Congrats! You kwinished the game! You're done!")
+
+
 func centering_dot_hub():
 	min_word_circle_position = min(word_circle_texture_rect.size.x, word_circle_texture_rect.size.y)
 	#dot_hub.position = Vector2.ONE * min_word_circle_position * 0.5
@@ -97,6 +142,11 @@ func centering_dot_hub():
 
 
 func place_dots():
+	# clearing anything that's not a line 2D
+	for child in dot_hub.get_children():
+		if child is not Line2D:
+			child.queue_free()
+			
 	for index in number_of_dots:
 		var new_node = Node2D.new()
 		dot_hub.add_child(new_node)
@@ -152,7 +202,10 @@ func certify_formed_word():
 				found_words_array.append(formed_word)
 				
 				if found_words_array.size() == words_to_find_array.size():
+					current_game += 1
 					print("Congratulations! You finished the game!")
+					screen_transition()
+					#load_next_game()
 			else:
 				look_up_word_in_dictionary(formed_word)
 		
@@ -258,7 +311,7 @@ func parse_dictionary() -> Array:
 	return word_arr
 
 
-func on_shuffle_button_pressed():
+func shuffle_dots():
 	# the intention is to shuffle the dot transform dictionary such that dots get shifted to a random position
 	var shuffle_array: Array = dot_transform_dict.keys()
 	shuffle_array.shuffle()
@@ -278,3 +331,20 @@ func on_shuffle_button_pressed():
 	shuffle_press_tween.set_ease(Tween.EASE_IN_OUT)
 	shuffle_press_tween.set_trans(Tween.TRANS_BOUNCE)
 	#print("Shuffle!")
+
+
+func screen_transition():
+	#screen_color_rect.scale = Vector2(0, 1)
+	screen_color_rect.pivot_offset = Vector2(0, size.y * 0.5)
+	
+	var screen_transition_tween := create_tween()
+	screen_transition_tween.tween_property(screen_color_rect, "scale:x", 1, 0.8)
+	
+	# We wait to cover the screen before loading the next game
+	screen_transition_tween.tween_callback(load_next_game)
+	
+	screen_transition_tween.tween_property(screen_color_rect, "pivot_offset", Vector2(size.x, size.y * 0.5), 0.05)
+	screen_transition_tween.tween_property(screen_color_rect, "scale:x", 0, 0.5)
+	screen_transition_tween.set_ease(Tween.EASE_IN_OUT)
+	screen_transition_tween.set_trans(Tween.TRANS_QUINT)
+	
