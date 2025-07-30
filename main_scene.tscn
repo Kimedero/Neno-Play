@@ -32,6 +32,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("1_8mm7a")
 script = ExtResource("2_8mm7a")
+current_language = 1
 
 [node name="BackgroundColorRect" type="ColorRect" parent="."]
 layout_mode = 1

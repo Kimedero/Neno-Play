@@ -1,9 +1,10 @@
-#@tool
 extends Control
 
 const GAME_MAKER = preload("res://resources/game_maker.tres")
 
 var current_game: int = 0
+enum LANGUAGE {ENGLISH, SWAHILI}
+@export var current_language := LANGUAGE.ENGLISH
 
 @onready var formed_word_label: Label = $BottomPart/FormedWordControl/FormedWordLabel
 
@@ -23,14 +24,16 @@ var dot_transform_dict: Dictionary
 # we also need a way to save progress
 
 # THE GAME MAKERS
-var actual_letters = "PANELS"
-@export var number_of_dots: int = 6
+var actual_letters := "PANELS"
+var number_of_dots: int = actual_letters.length()
 var word_columns: int = 2
 var words_to_find_array: Array = ['PLAN', 'LANE', 'PLEA', 'LANES', 'LEAPS', 'PLANE', 'PLANES',  'PLEAS']
 var found_words_array: Array
 var found_bonus_words_array: Array
 
 ## an array full of words
+var all_english_words: Array
+var all_swahili_words: Array
 var all_words: Array
 
 const WORD_PANEL = preload("res://word/word_panel.tscn")
@@ -90,8 +93,9 @@ func initialize_game():
 	formed_word_label.resized.connect(show_formed_word_label_contents)
 	show_formed_word_label_contents()
 	
-	all_words = parse_dictionary()
-	#print(all_words[all_words.size() - 1])
+	all_english_words = parse_dictionary(dictionary_file)
+	all_swahili_words = parse_dictionary(kamusi_file)
+	dictionary_choice()
 	
 	handling_notches()
 
@@ -108,6 +112,9 @@ func load_next_game():
 	already_found_bonus_word_rich_text_label.scale = Vector2.ZERO
 	
 	shuffle_dots()
+	
+	# making sure we are loading the right dictionary
+	dictionary_choice()
 
 
 func load_new_game_settings():
@@ -122,11 +129,11 @@ func load_new_game_settings():
 	word_panel_dict.clear()
 	
 	# fetching new game settings
-	var game_dict: Dictionary = GAME_MAKER.games
+	var game_dict: Dictionary = GAME_MAKER.games[current_language]
 	if game_dict.has(current_game):
 		var curr_game_settings: Dictionary = game_dict[current_game]
 		print("Current game settings: %s" % [curr_game_settings])
-		current_game_label.text = "Current Game: %s" % [current_game]
+		current_game_label.text = "Game %s" % [current_game]
 		actual_letters = curr_game_settings.letters
 		number_of_dots = actual_letters.length()
 		word_columns = curr_game_settings.columns
@@ -196,16 +203,20 @@ func certify_formed_word():
 	if formed_word.length() > 1:
 		#for _word: Control in word_grid_container.get_children():
 			if formed_word in word_panel_dict.keys():
+				if formed_word not in found_words_array:
 			#if formed_word == _word.word_to_display:
-				word_panel_dict[formed_word].animate_found_word()
-				#_word.animate_found_word()
-				found_words_array.append(formed_word)
-				
-				if found_words_array.size() == words_to_find_array.size():
-					current_game += 1
-					print("Congratulations! You finished the game!")
-					screen_transition()
-					#load_next_game()
+					word_panel_dict[formed_word].animate_found_word()
+					#_word.animate_found_word()
+					found_words_array.append(formed_word)
+					
+					if found_words_array.size() == words_to_find_array.size():
+						current_game += 1
+						print("Congratulations! You finished the game!")
+						screen_transition()
+						#load_next_game()
+				else:
+					word_panel_dict[formed_word].flash_found_word()
+					#print("Flash the formed word on screen!")
 			else:
 				look_up_word_in_dictionary(formed_word)
 		
@@ -254,10 +265,10 @@ func format_word_grid():
 	for word_to_find: String in words_to_find_array:
 		#print("Word: %s" % [_word])
 		var new_word_panel = WORD_PANEL.instantiate()
-		new_word_panel.word_to_display = word_to_find
+		new_word_panel.word_to_display = word_to_find.to_upper()
 		word_grid_container.add_child(new_word_panel)
 		
-		word_panel_dict[word_to_find] = new_word_panel
+		word_panel_dict[word_to_find.to_upper()] = new_word_panel
 
 
 func look_up_word_in_dictionary(formed_word: String):
@@ -298,9 +309,9 @@ func display_already_found_bonus_word(bonus_word: String):
 	already_found_bonus_tween.set_trans(Tween.TRANS_SPRING)
 
 
-func parse_dictionary() -> Array:
+func parse_dictionary(dictionary) -> Array:
 	var word_arr: Array = []
-	var dict_file := FileAccess.open(dictionary_file, FileAccess.READ)
+	var dict_file := FileAccess.open(dictionary, FileAccess.READ)
 	while not dict_file.eof_reached():
 		var line: String = dict_file.get_line()
 		if "'" not in line and line.length() > 1:
@@ -347,4 +358,12 @@ func screen_transition():
 	screen_transition_tween.tween_property(screen_color_rect, "scale:x", 0, 0.5)
 	screen_transition_tween.set_ease(Tween.EASE_IN_OUT)
 	screen_transition_tween.set_trans(Tween.TRANS_QUINT)
-	
+
+
+func dictionary_choice():
+	match current_language:
+		LANGUAGE.ENGLISH:
+			all_words = all_english_words
+		LANGUAGE.SWAHILI:
+			all_words = all_swahili_words
+	#print(all_words[all_words.size() - 1])
