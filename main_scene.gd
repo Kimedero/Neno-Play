@@ -56,7 +56,8 @@ var kamusi_file = "res://assets/Kamusi/kamusi_words.txt"
 
 @onready var current_game_label: Label = $UpperPart/CurrentGameLabel
 
-@onready var screen_color_rect: ColorRect = $ScreenColorRect
+@onready var screen_transition_color_rect: ColorRect = $ScreenTransitionColorRect
+@onready var game_over_screen_color_rect: ColorRect = $GameOverScreenColorRect
 
 func _ready() -> void:
 	initialize_game()
@@ -98,6 +99,8 @@ func initialize_game():
 	dictionary_choice()
 	
 	handling_notches()
+	
+	game_over_screen_color_rect.visible = false
 
 
 func load_next_game():
@@ -139,6 +142,7 @@ func load_new_game_settings():
 		word_columns = curr_game_settings.columns
 		words_to_find_array = curr_game_settings.words_to_find
 	else:
+		game_over_transition()
 		print("Congrats! You kwinished the game! You're done!")
 
 
@@ -211,7 +215,7 @@ func certify_formed_word():
 					
 					if found_words_array.size() == words_to_find_array.size():
 						current_game += 1
-						print("Congratulations! You finished the game!")
+						#print("Congratulations! You finished the game!")
 						screen_transition()
 						#load_next_game()
 				else:
@@ -346,18 +350,30 @@ func shuffle_dots():
 
 func screen_transition():
 	#screen_color_rect.scale = Vector2(0, 1)
-	screen_color_rect.pivot_offset = Vector2(0, size.y * 0.5)
+	screen_transition_color_rect.pivot_offset = Vector2(0, size.y * 0.5)
 	
 	var screen_transition_tween := create_tween()
-	screen_transition_tween.tween_property(screen_color_rect, "scale:x", 1, 0.8)
+	screen_transition_tween.tween_property(screen_transition_color_rect, "scale:x", 1, 0.8)
 	
 	# We wait to cover the screen before loading the next game
 	screen_transition_tween.tween_callback(load_next_game)
 	
-	screen_transition_tween.tween_property(screen_color_rect, "pivot_offset", Vector2(size.x, size.y * 0.5), 0.05)
-	screen_transition_tween.tween_property(screen_color_rect, "scale:x", 0, 0.5)
+	screen_transition_tween.tween_property(screen_transition_color_rect, "pivot_offset", Vector2(size.x, size.y * 0.5), 0.05)
+	screen_transition_tween.tween_property(screen_transition_color_rect, "scale:x", 0, 0.5)
 	screen_transition_tween.set_ease(Tween.EASE_IN_OUT)
 	screen_transition_tween.set_trans(Tween.TRANS_QUINT)
+
+
+func game_over_transition():
+	game_over_screen_color_rect.visible = true
+	game_over_screen_color_rect.scale = Vector2(0, 1)
+	
+	game_over_screen_color_rect.pivot_offset = Vector2(0, size.y * 0.5)
+	
+	var game_over_transition_tween := create_tween()
+	game_over_transition_tween.tween_property(game_over_screen_color_rect, "scale:x", 1, 0.4)
+	game_over_transition_tween.set_ease(Tween.EASE_OUT)
+	game_over_transition_tween.set_trans(Tween.TRANS_SINE)
 
 
 func dictionary_choice():

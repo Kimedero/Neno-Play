@@ -8,7 +8,7 @@ var games: Dictionary = {
 		},
 	1:{ # swahili
 		0:{"letters":"Saa", "words_to_find":["SaA"], "columns":1},
-		1:{"letters":"SANAA", "words_to_find":["SAA", "SANA", "NASA", "ANASA", "SANAA"], "columns":1},
-		2:{"letters":"HABARI", "words_to_find":["BIA", "BARA", "HABA", "raha", "HABARI", "BAHARI"], "columns":2},
+		#1:{"letters":"SANAA", "words_to_find":["SAA", "SANA", "NASA", "ANASA", "SANAA"], "columns":1},
+		#2:{"letters":"HABARI", "words_to_find":["BIA", "BARA", "HABA", "raha", "HABARI", "BAHARI"], "columns":2},
 	},
 }
