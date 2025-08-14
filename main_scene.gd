@@ -149,7 +149,7 @@ func initialize_new_game_settings():
 	if game_dict.has(current_game):
 		var curr_game_settings: Dictionary = game_dict[current_game]
 		print("Current game settings: %s" % [curr_game_settings])
-		current_game_label.text = "Game %s - Game State: %s" % [current_game, game_state]
+		current_game_label.text = "Game %s" % [current_game]
 		actual_letters = curr_game_settings.letters
 		number_of_dots = actual_letters.length()
 		word_columns = curr_game_settings.columns
@@ -224,13 +224,13 @@ func certify_formed_word():
 				word_panel_dict[formed_word].animate_found_word()
 				found_words_array.append(formed_word)
 				save_progress()
-				print("Appended and saved formed word!")
+				#print("Appended and saved formed word!")
 				
 				# when the size of the found word array and words to find array tally we advance the current game
 				if found_words_array.size() == words_to_find_array.size():
 					game_state = GAME_STATE.LEVEL_COMPLETED
 					save_progress()
-					print("Completed game advanced it and saved!")
+					#print("Completed game advanced it and saved!")
 					#current_game += 1
 					#print("Congratulations! You finished the game!")
 					
@@ -306,9 +306,8 @@ func load_found_and_bonus_words():
 			for wp: WordPanel in word_grid_container_children:
 				if wp.word_to_display.to_upper() == found_word.to_upper():
 					wp.animate_found_word()
+					#print("Word to Display: %s" % [wp.word_to_display])
 					
-					#word_panel_dict[word_to_find.to_upper()] = new_word_panel
-					print("Word to Display: %s" % [wp.word_to_display])
 		
 	if not temp_found_bonus_words_array.is_empty():
 		found_bonus_words_array.clear()
@@ -330,7 +329,7 @@ func look_up_word_in_dictionary(formed_word: String):
 		if formed_word.to_upper() not in found_bonus_words_array:
 			found_bonus_words_array.append(formed_word.to_upper())
 			save_progress()
-			print("Updated bonus words and saved game!")
+			#print("Updated bonus words and saved game!")
 	else:
 		# we have a word not found animation
 		pass
