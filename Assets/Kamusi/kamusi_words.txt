@@ -1827,7 +1827,6 @@ chakata
 chakavu
 chakaza
 chaki
-chaki
 chako
 chaku
 chakubimbi
@@ -5893,7 +5892,7 @@ kalavati
 kale
 kalenda
 kalfati
--kali
+kali
 kalia
 kalibu
 kalibu
@@ -6147,8 +6146,6 @@ kashmiri
 kashfa
 kashida
 kasi
-
-kasi
 kasia
 kasiba
 kasida
@@ -6238,7 +6235,7 @@ kaunti
 kaure
 kauri
 kausa
-(makausha)
+makausha
 kausha
 kausha
 Kausi
@@ -6246,7 +6243,6 @@ kauta
 kauzu
 kauzu
 kavu
--kavu
 kavukavu
 kawa
 kawaida
@@ -8427,6 +8423,7 @@ kung'uto
 kunguwaa
 kungwi
 kunguwia
+kuni
 kunja
 kunjamana
 kunjika
@@ -8516,7 +8513,7 @@ kututu
 kuume
 kutuzi
 kutwa
--kuu
+kuu
 kuukeni
 kuukuu
 kuume
@@ -8614,7 +8611,6 @@ kwingine
 kwinini
 kwinta
 kwiu
-l
 la
 la
 laana
@@ -9179,6 +9175,7 @@ makalio
 makame
 makamo
 makamu
+makanga
 makani
 makanika
 makao
@@ -16131,7 +16128,6 @@ tangu
 tangua
 tangulia
 tanguliza
-tani
 tani
 tania
 taniaba

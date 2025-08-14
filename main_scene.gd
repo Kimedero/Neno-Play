@@ -2,9 +2,14 @@ extends Control
 
 const GAME_MAKER = preload("res://resources/game_maker.tres")
 
-var current_game: int = 0
+var current_game: int = 0 # 31 # 0
 enum LANGUAGE {ENGLISH, SWAHILI}
 @export var current_language := LANGUAGE.ENGLISH
+
+# every time we figure out a bonus word we get a reward according to how long the word is
+var current_score: int = 0
+enum GAME_STATE {IN_PROGRESS, LEVEL_COMPLETED}
+var game_state: GAME_STATE = GAME_STATE.IN_PROGRESS
 
 @onready var formed_word_label: Label = $BottomPart/FormedWordControl/FormedWordLabel
 
@@ -30,6 +35,8 @@ var word_columns: int = 2
 var words_to_find_array: Array = ['PLAN', 'LANE', 'PLEA', 'LANES', 'LEAPS', 'PLANE', 'PLANES',  'PLEAS']
 var found_words_array: Array
 var found_bonus_words_array: Array
+var temp_found_words_array: Array # after loading the game we hold the values here before
+var temp_found_bonus_words_array: Array
 
 ## an array full of words
 var all_english_words: Array
@@ -52,6 +59,8 @@ var touch_started: bool ## if action to select dot has started
 var dictionary_file = "res://assets/dictionary.txt"
 var kamusi_file = "res://assets/Kamusi/kamusi_words.txt"
 
+var current_progress_dict: Dictionary
+
 @onready var shuffle_texture_button: TextureButton = $BottomPart/ShuffleTextureButton
 
 @onready var current_game_label: Label = $UpperPart/CurrentGameLabel
@@ -59,10 +68,14 @@ var kamusi_file = "res://assets/Kamusi/kamusi_words.txt"
 @onready var screen_transition_color_rect: ColorRect = $ScreenTransitionColorRect
 @onready var game_over_screen_color_rect: ColorRect = $GameOverScreenColorRect
 
+var save_file_path = "user://progress.sav" # progress/
+
 func _ready() -> void:
+	randomize()
+	
 	initialize_game()
 	
-	#load_next_game()
+	load_progress()
 	
 	screen_transition()
 
@@ -96,7 +109,7 @@ func initialize_game():
 	
 	all_english_words = parse_dictionary(dictionary_file)
 	all_swahili_words = parse_dictionary(kamusi_file)
-	dictionary_choice()
+	choose_dictionary()
 	
 	handling_notches()
 	
@@ -105,7 +118,7 @@ func initialize_game():
 
 func load_next_game():
 	# loading a new game
-	load_new_game_settings()
+	initialize_new_game_settings()
 	format_word_grid()
 	
 	centering_dot_hub()
@@ -117,10 +130,10 @@ func load_next_game():
 	shuffle_dots()
 	
 	# making sure we are loading the right dictionary
-	dictionary_choice()
+	choose_dictionary()
 
 
-func load_new_game_settings():
+func initialize_new_game_settings():
 	# settings to reset
 	found_words_array.clear()
 	found_bonus_words_array.clear()
@@ -136,7 +149,7 @@ func load_new_game_settings():
 	if game_dict.has(current_game):
 		var curr_game_settings: Dictionary = game_dict[current_game]
 		print("Current game settings: %s" % [curr_game_settings])
-		current_game_label.text = "Game %s" % [current_game]
+		current_game_label.text = "Game %s - Game State: %s" % [current_game, game_state]
 		actual_letters = curr_game_settings.letters
 		number_of_dots = actual_letters.length()
 		word_columns = curr_game_settings.columns
@@ -205,24 +218,28 @@ func display_dot_line():
 func certify_formed_word():
 	var formed_word = formed_word_label.text
 	if formed_word.length() > 1:
-		#for _word: Control in word_grid_container.get_children():
-			if formed_word in word_panel_dict.keys():
-				if formed_word not in found_words_array:
-			#if formed_word == _word.word_to_display:
-					word_panel_dict[formed_word].animate_found_word()
-					#_word.animate_found_word()
-					found_words_array.append(formed_word)
+		# checking if the formed word appears in the word panel
+		if formed_word in word_panel_dict.keys():
+			if formed_word not in found_words_array:
+				word_panel_dict[formed_word].animate_found_word()
+				found_words_array.append(formed_word)
+				save_progress()
+				print("Appended and saved formed word!")
+				
+				# when the size of the found word array and words to find array tally we advance the current game
+				if found_words_array.size() == words_to_find_array.size():
+					game_state = GAME_STATE.LEVEL_COMPLETED
+					save_progress()
+					print("Completed game advanced it and saved!")
+					#current_game += 1
+					#print("Congratulations! You finished the game!")
 					
-					if found_words_array.size() == words_to_find_array.size():
-						current_game += 1
-						#print("Congratulations! You finished the game!")
-						screen_transition()
-						#load_next_game()
-				else:
-					word_panel_dict[formed_word].flash_found_word()
-					#print("Flash the formed word on screen!")
+					screen_transition()
 			else:
-				look_up_word_in_dictionary(formed_word)
+				word_panel_dict[formed_word].flash_found_word()
+				#print("Flash the formed word on screen!")
+		else:
+			look_up_word_in_dictionary(formed_word)
 		
 		#print("You formed: %s" % [formed_word])
 	formed_word_label.text = ""
@@ -268,11 +285,37 @@ func format_word_grid():
 	word_grid_container.columns = word_columns
 	for word_to_find: String in words_to_find_array:
 		#print("Word: %s" % [_word])
-		var new_word_panel = WORD_PANEL.instantiate()
+		var new_word_panel: WordPanel = WORD_PANEL.instantiate()
 		new_word_panel.word_to_display = word_to_find.to_upper()
 		word_grid_container.add_child(new_word_panel)
 		
 		word_panel_dict[word_to_find.to_upper()] = new_word_panel
+	
+	load_found_and_bonus_words()
+
+
+func load_found_and_bonus_words():
+	#game_state = GAME_STATE.IN_PROGRESS
+	
+	if not temp_found_words_array.is_empty():
+		found_words_array.clear()
+		found_words_array = temp_found_words_array.duplicate()
+		
+		var word_grid_container_children: Array = word_grid_container.get_children()
+		for found_word: String in temp_found_words_array:
+			for wp: WordPanel in word_grid_container_children:
+				if wp.word_to_display.to_upper() == found_word.to_upper():
+					wp.animate_found_word()
+					
+					#word_panel_dict[word_to_find.to_upper()] = new_word_panel
+					print("Word to Display: %s" % [wp.word_to_display])
+		
+	if not temp_found_bonus_words_array.is_empty():
+		found_bonus_words_array.clear()
+		found_bonus_words_array = temp_found_bonus_words_array.duplicate()
+		#temp_found_bonus_words_array.clear()
+		
+	#print("word_panel_dict: %s" % [word_panel_dict])
 
 
 func look_up_word_in_dictionary(formed_word: String):
@@ -283,9 +326,14 @@ func look_up_word_in_dictionary(formed_word: String):
 		else:
 			display_already_found_bonus_word(formed_word)
 			#print("ALREADY FOUND WORD: %s" % [formed_word])
-			
-		found_bonus_words_array.append(formed_word.to_upper())
-
+		
+		if formed_word.to_upper() not in found_bonus_words_array:
+			found_bonus_words_array.append(formed_word.to_upper())
+			save_progress()
+			print("Updated bonus words and saved game!")
+	else:
+		# we have a word not found animation
+		pass
 
 func display_found_bonus_word(bonus_word: String):
 	bonus_word_rich_text_label.text = "[center][u]Bonus Word Found![/u]\n[font_size=40][color=green]%s[/color][/font_size][/center]" % [bonus_word]
@@ -349,8 +397,9 @@ func shuffle_dots():
 
 
 func screen_transition():
-	#screen_color_rect.scale = Vector2(0, 1)
-	screen_transition_color_rect.pivot_offset = Vector2(0, size.y * 0.5)
+	screen_transition_color_rect.visible = true
+	#screen_transition_color_rect.scale = Vector2(0, 1)
+	screen_transition_color_rect.pivot_offset = Vector2(size.x, size.y * 0.5)
 	
 	var screen_transition_tween := create_tween()
 	screen_transition_tween.tween_property(screen_transition_color_rect, "scale:x", 1, 0.8)
@@ -358,7 +407,7 @@ func screen_transition():
 	# We wait to cover the screen before loading the next game
 	screen_transition_tween.tween_callback(load_next_game)
 	
-	screen_transition_tween.tween_property(screen_transition_color_rect, "pivot_offset", Vector2(size.x, size.y * 0.5), 0.05)
+	screen_transition_tween.tween_property(screen_transition_color_rect, "pivot_offset", Vector2(0, size.y * 0.5), 0.05)
 	screen_transition_tween.tween_property(screen_transition_color_rect, "scale:x", 0, 0.5)
 	screen_transition_tween.set_ease(Tween.EASE_IN_OUT)
 	screen_transition_tween.set_trans(Tween.TRANS_QUINT)
@@ -376,10 +425,61 @@ func game_over_transition():
 	game_over_transition_tween.set_trans(Tween.TRANS_SINE)
 
 
-func dictionary_choice():
+func choose_dictionary():
 	match current_language:
 		LANGUAGE.ENGLISH:
 			all_words = all_english_words
 		LANGUAGE.SWAHILI:
 			all_words = all_swahili_words
 	#print(all_words[all_words.size() - 1])
+
+
+func save_progress():
+	var save_file := FileAccess.open(save_file_path, FileAccess.WRITE)
+	
+	current_progress_dict["game_%s_found_words" % [current_game]] = found_words_array.duplicate()
+	current_progress_dict["game_%s_found_bonus_words" % [current_game]] = found_bonus_words_array.duplicate()
+	
+	# here we want to make sure that we are either advancing the current game or just saving progress so far
+	match game_state:
+		GAME_STATE.LEVEL_COMPLETED:
+			current_game += 1
+			game_state = GAME_STATE.IN_PROGRESS
+			
+	current_progress_dict["current_game"] = current_game # we save before advancing to the next game
+	current_progress_dict["current_score"] = current_score
+		
+	save_file.store_var(current_progress_dict)
+	save_file.close()
+	print("Saved Progress Dict: %s" % [current_progress_dict])
+
+
+func load_progress():
+	if FileAccess.file_exists(save_file_path):
+		var read_file := FileAccess.open(save_file_path, FileAccess.READ)
+		var loaded_current_progress_dict: Dictionary = read_file.get_var()
+		read_file.close()
+		current_progress_dict = loaded_current_progress_dict
+		#LOAD CURRENT GAME
+		if "current_game" in loaded_current_progress_dict:
+			current_game = loaded_current_progress_dict["current_game"]
+		#LOAD CURRENT SCORE
+		if "current_score" in loaded_current_progress_dict:
+			current_score = loaded_current_progress_dict["current_score"]
+		print("Loaded Progress Dict: %s" % [loaded_current_progress_dict])
+		
+		#we load the found words here
+		# FOUND WORDS
+		if "game_%s_found_words" % [current_game] in loaded_current_progress_dict:
+			temp_found_words_array = loaded_current_progress_dict["game_%s_found_words" % [current_game]].duplicate()
+			print("Game %s Found Words: %s" % [current_game, temp_found_words_array])
+		else:
+			print("Bado kusave found words!")
+			
+		# FOUND BONUS WORDS
+		if "game_%s_found_bonus_words" % [current_game] in loaded_current_progress_dict:
+			temp_found_bonus_words_array = loaded_current_progress_dict["game_%s_found_bonus_words" % [current_game]].duplicate()
+			print("Game %s Found Bonus Words: %s" % [current_game, temp_found_bonus_words_array])
+		else:
+			print("Bado kusave found bonus words!")
+		

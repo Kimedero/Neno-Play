@@ -1,4 +1,5 @@
 extends Control
+class_name WordPanel
 
 var word_to_display: String = "JINA"
 
